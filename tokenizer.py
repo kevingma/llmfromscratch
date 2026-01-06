@@ -15,6 +15,7 @@ class SimpleTokenizer:
         text = " ".join([self.int_to_str[i] for i in ids])
 
         text = re.sub(r'\s+([,.:;?_!"()\']|--)', r'\1', text)
-        return text
+        return text 
 
-    
+
+  
