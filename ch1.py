@@ -1,5 +1,6 @@
 import re
-from tokenizer import SimpleTokenizer
+from simple_tokenizer import SimpleTokenizer
+from simple_tokenizerv2 import SimpleTokenizerV2
 
 with open("the_verdict.txt", "r", encoding="utf-8") as f:
     raw_text = f.read()
@@ -31,7 +32,7 @@ for i, item in enumerate(vocab.items()):
 
 ####
 
-
+# masterful code
 
 for item in vocab.items(): 
     while item[1] <= 51:
@@ -49,4 +50,31 @@ print(ids)
 print(tokenizer.decode(ids))
 
 all_tokens = sorted(list(set(preprocessed)))
-all_tokens.extend([])
+all_tokens.extend(["<|endoftext|>", "<|unk|>"])
+# ["I", "love", "<unk>", "and", "<unk>"]\
+# [10, 57, 1131, 42, 1131]
+
+vocab = {token:integer for integer,token in enumerate(all_tokens)}
+# (0, 'a'), (1, 'b'), ...
+# ('a', 0), ('b', 1), ...
+
+for item in vocab.items():
+    print(item)
+    if item[1] == 10:
+        break
+
+for i, item in enumerate(list(vocab.items())[-5:]):
+ print(item)
+
+
+text1 = "Hello, do you like tea?"
+text2 = "In the sunlit terraces of the palace."
+text = " <|endoftext|> ".join((text1, text2))
+print(text)
+
+tokenizer = SimpleTokenizerV2(vocab)
+print(tokenizer.encode(text))
+# [1131, 5, 355, 1126, 628, 975, 10, 1131, 55, 988, 956, 984, 722, 988, 1131, 7]
+
+print(tokenizer.decode(tokenizer.encode(text)))
+# <|unk|>, do you like tea? <|unk|> In the sunlit terraces of the <|unk|>.
